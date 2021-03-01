@@ -24,7 +24,7 @@
         <p class="clearfix blue-grey lighten-2 mb-0 text-center">
             <span class="text-center d-block d-md-inline-block mt-25">
                 Powered by
-                <a target="_blank" href="https://github.com/kinvcode/laravel-admin">KinvCode</a>
+                <a target="_blank" href="https://www.conceptfound.com/">創龍科技</a>
                 <span>&nbsp;·&nbsp;</span>
                 v1.0.0
             </span>

@@ -98,7 +98,7 @@ class Tools implements Renderable
      */
     public function disableList(bool $disable = true)
     {
-        $this->tools['list'] = ! $disable;
+        $this->tools['list'] = !$disable;
 
         return $this;
     }
@@ -110,7 +110,7 @@ class Tools implements Renderable
      */
     public function disableDelete(bool $disable = true)
     {
-        $this->tools['delete'] = ! $disable;
+        $this->tools['delete'] = !$disable;
 
         return $this;
     }
@@ -122,7 +122,7 @@ class Tools implements Renderable
      */
     public function disableView(bool $disable = true)
     {
-        $this->tools['view'] = ! $disable;
+        $this->tools['view'] = !$disable;
 
         return $this;
     }
@@ -155,7 +155,7 @@ class Tools implements Renderable
     protected function getViewPath()
     {
         if ($key = $this->form->getResourceId()) {
-            return $this->getListPath().'/'.$key;
+            return $this->getListPath() . '/' . $key;
         }
 
         return $this->getListPath();
@@ -182,7 +182,8 @@ class Tools implements Renderable
 
         return <<<EOT
 <div class="btn-group pull-right" style="margin-right: 5px">
-    <a href="{$this->getListPath()}" class="btn btn-sm btn-white "><i class="feather icon-list"></i><span class="d-none d-sm-inline">&nbsp;$text</span></a>
+    <a href="{$this->getListPath(
+        )}" class="btn btn-sm btn-white "><i class="feather icon-list"></i><span class="d-none d-sm-inline">&nbsp;$text</span></a>
 </div>
 EOT;
     }
@@ -216,7 +217,8 @@ HTML;
 
         return <<<HTML
 <div class="btn-group pull-right" style="margin-right: 5px">
-    <a class="btn btn-sm btn-danger text-white" data-action="delete" data-url="{$this->getDeletePath()}" data-redirect="{$this->getListPath()}">
+    <a class="btn btn-sm btn-danger text-white" data-action="delete" data-url="{$this->getDeletePath(
+        )}" data-redirect="{$this->getListPath()}">
         <i class="feather icon-trash"></i><span class="d-none d-sm-inline"> {$delete}</span>
     </a>
 </div>
@@ -255,12 +257,12 @@ HTML;
 
         foreach ($this->tools as $tool => $enable) {
             if ($enable) {
-                $renderMethod = 'render'.ucfirst($tool);
+                $renderMethod = 'render' . ucfirst($tool);
 
                 $output .= $this->$renderMethod();
             }
         }
 
-        return $output.$this->renderCustomTools($this->appends);
+        return $output . $this->renderCustomTools($this->appends);
     }
 }

@@ -79,7 +79,7 @@ class Builder
     /**
      * @var Tools
      */
-    protected $tools;
+    protected $tools = ['delete' => false, 'view' => false, 'list' => false];
 
     /**
      * @var Footer
@@ -256,7 +256,7 @@ class Builder
      */
     public function multipleSteps($builder = null)
     {
-        if (! $this->stepBuilder) {
+        if (!$this->stepBuilder) {
             $this->view = 'admin::form.steps';
 
             $this->stepBuilder = new StepBuilder($this->form);
@@ -432,7 +432,7 @@ class Builder
         }
 
         if ($this->isMode(static::MODE_EDIT)) {
-            return $this->form->getResource().'/'.$this->id;
+            return $this->form->getResource() . '/' . $this->id;
         }
 
         if ($this->isMode(static::MODE_CREATE)) {
@@ -505,15 +505,17 @@ class Builder
      */
     public function field($name)
     {
-        $field = $this->fields->first(function (Field $field) use ($name) {
-            if (is_array($field->column())) {
-                return in_array($name, $field->column(), true) ? $field : null;
+        $field = $this->fields->first(
+            function (Field $field) use ($name) {
+                if (is_array($field->column())) {
+                    return in_array($name, $field->column(), true) ? $field : null;
+                }
+
+                return $field === $name || $field->column() === $name;
             }
+        );
 
-            return $field === $name || $field->column() === $name;
-        });
-
-        if (! $field) {
+        if (!$field) {
             $field = $this->stepField($name);
         }
 
@@ -527,7 +529,7 @@ class Builder
      */
     public function stepField($name)
     {
-        if (! $builder = $this->stepBuilder()) {
+        if (!$builder = $this->stepBuilder()) {
             return;
         }
 
@@ -545,7 +547,7 @@ class Builder
     {
         $fields = new Collection();
 
-        if (! $builder = $this->stepBuilder()) {
+        if (!$builder = $this->stepBuilder()) {
             return $fields;
         }
 
@@ -563,9 +565,11 @@ class Builder
      */
     public function removeField($column)
     {
-        $this->fields = $this->fields->filter(function (Field $field) use ($column) {
-            return $field->column() != $column;
-        });
+        $this->fields = $this->fields->filter(
+            function (Field $field) use ($column) {
+                return $field->column() != $column;
+            }
+        );
     }
 
     /**
@@ -575,7 +579,7 @@ class Builder
      */
     public function hasRows()
     {
-        return ! empty($this->form->rows());
+        return !empty($this->form->rows());
     }
 
     /**
@@ -634,7 +638,7 @@ class Builder
      * Get or set option.
      *
      * @param string $option
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return void
      */
@@ -654,7 +658,7 @@ class Builder
      */
     public function disableHeader(bool $disable = true)
     {
-        $this->showHeader = ! $disable;
+        $this->showHeader = !$disable;
     }
 
     /**
@@ -664,7 +668,7 @@ class Builder
      */
     public function disableFooter(bool $disable = true)
     {
-        $this->showFooter = ! $disable;
+        $this->showFooter = !$disable;
     }
 
     /**
@@ -682,7 +686,7 @@ class Builder
      */
     public function getElementId()
     {
-        return $this->elementId ?: ($this->elementId = 'form-'.Str::random(8));
+        return $this->elementId ?: ($this->elementId = 'form-' . Str::random(8));
     }
 
     /**
@@ -713,13 +717,13 @@ class Builder
     {
         $previous = Helper::getPreviousUrl();
 
-        if (! $previous || $previous == URL::current()) {
+        if (!$previous || $previous == URL::current()) {
             return;
         }
 
         if (
             Str::contains($previous, url($this->getResource()))
-            && ! Helper::urlHasQuery($previous, [IFrameGrid::QUERY_NAME, DialogForm::QUERY_NAME])
+            && !Helper::urlHasQuery($previous, [IFrameGrid::QUERY_NAME, DialogForm::QUERY_NAME])
         ) {
             $this->addHiddenField(
                 (new Hidden(static::PREVIOUS_URL_KEY))->value($previous)
@@ -762,7 +766,7 @@ class Builder
             $html[] = "$name=\"$value\"";
         }
 
-        return '<form '.implode(' ', $html).' pjax-container>';
+        return '<form ' . implode(' ', $html) . ' pjax-container>';
     }
 
     /**
@@ -785,9 +789,11 @@ class Builder
      */
     protected function removeIgnoreFields()
     {
-        $this->fields = $this->fields()->reject(function (Field $field) {
-            return $field->hasAttribute(static::BUILD_IGNORE);
-        });
+        $this->fields = $this->fields()->reject(
+            function (Field $field) {
+                return $field->hasAttribute(static::BUILD_IGNORE);
+            }
+        );
     }
 
     /**
@@ -797,7 +803,7 @@ class Builder
      */
     protected function removeReservedFields()
     {
-        if (! $this->isMode(static::MODE_CREATE)) {
+        if (!$this->isMode(static::MODE_CREATE)) {
             return;
         }
 
@@ -815,13 +821,15 @@ class Builder
         $this->fields = $this->fields()->reject($reject);
 
         if ($this->form->hasTab()) {
-            $this->form->getTab()->getTabs()->transform(function ($item) use ($reject) {
-                if (! empty($item['fields'])) {
-                    $item['fields'] = $item['fields']->reject($reject);
-                }
+            $this->form->getTab()->getTabs()->transform(
+                function ($item) use ($reject) {
+                    if (!empty($item['fields'])) {
+                        $item['fields'] = $item['fields']->reject($reject);
+                    }
 
-                return $item;
-            });
+                    return $item;
+                }
+            );
         }
     }
 
@@ -842,7 +850,7 @@ class Builder
      */
     public function renderFooter()
     {
-        if (! $this->showFooter) {
+        if (!$this->showFooter) {
             return;
         }
 
@@ -861,7 +869,7 @@ class Builder
 
         $tabObj = $this->form->getTab();
 
-        if (! $tabObj->isEmpty()) {
+        if (!$tabObj->isEmpty()) {
             $tabObj->addScript();
         }
 
@@ -872,12 +880,12 @@ class Builder
         $open = $this->open(['class' => 'form-horizontal']);
 
         $data = [
-            'form'       => $this,
-            'tabObj'     => $tabObj,
-            'width'      => $this->width,
-            'elementId'  => $this->getElementId(),
+            'form' => $this,
+            'tabObj' => $tabObj,
+            'width' => $this->width,
+            'elementId' => $this->getElementId(),
             'showHeader' => $this->showHeader,
-            'steps'      => $this->stepBuilder,
+            'steps' => $this->stepBuilder,
         ];
 
         if ($this->layout->hasColumns()) {

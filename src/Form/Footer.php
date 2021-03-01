@@ -26,7 +26,13 @@ class Footer implements Renderable
      *
      * @var array
      */
-    protected $buttons = ['reset' => true, 'submit' => true];
+    protected $buttons = [
+        'reset' => false,
+        'submit' => true,
+        'view' => false,
+        'continue_editing' => false,
+        'continue_creating' => false
+    ];
 
     /**
      * Available checkboxes.
@@ -54,7 +60,7 @@ class Footer implements Renderable
      */
     public function disableReset(bool $disable = true)
     {
-        $this->buttons['reset'] = ! $disable;
+        $this->buttons['reset'] = !$disable;
 
         return $this;
     }
@@ -68,7 +74,7 @@ class Footer implements Renderable
      */
     public function disableSubmit(bool $disable = true)
     {
-        $this->buttons['submit'] = ! $disable;
+        $this->buttons['submit'] = !$disable;
 
         return $this;
     }
@@ -82,7 +88,7 @@ class Footer implements Renderable
      */
     public function disableViewCheck(bool $disable = true)
     {
-        $this->checkboxes['view'] = ! $disable;
+        $this->checkboxes['view'] = !$disable;
 
         return $this;
     }
@@ -96,7 +102,7 @@ class Footer implements Renderable
      */
     public function disableEditingCheck(bool $disable = true)
     {
-        $this->checkboxes['continue_editing'] = ! $disable;
+        $this->checkboxes['continue_editing'] = !$disable;
 
         return $this;
     }
@@ -110,7 +116,7 @@ class Footer implements Renderable
      */
     public function disableCreatingCheck(bool $disable = true)
     {
-        $this->checkboxes['continue_creating'] = ! $disable;
+        $this->checkboxes['continue_creating'] = !$disable;
 
         return $this;
     }
@@ -140,7 +146,7 @@ class Footer implements Renderable
             $options[3] = sprintf('<span class="text-80 text-bold">%s</span>', trans('admin.view'));
         }
 
-        if (! $options) {
+        if (!$options) {
             return;
         }
 
@@ -155,9 +161,9 @@ class Footer implements Renderable
     public function render()
     {
         $data = [
-            'buttons'    => $this->buttons,
+            'buttons' => $this->buttons,
             'checkboxes' => $this->buildCheckboxes(),
-            'width'      => $this->builder->getWidth(),
+            'width' => $this->builder->getWidth(),
         ];
 
         return view($this->view, $data)->render();
