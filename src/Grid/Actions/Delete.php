@@ -18,7 +18,7 @@ class Delete extends RowAction
     {
         $this->setHtmlAttribute([
             'data-url'     => $this->url(),
-            'data-message' => "ID - {$this->getKey()}",
+//            'data-message' => "ID - {$this->getKey()}",
             'data-action'  => 'delete',
         ]);
 
