@@ -19,7 +19,7 @@ class Tools implements Renderable
      *
      * @var array
      */
-    protected $tools = ['delete' => true, 'view' => true, 'list' => true];
+    protected $tools = ['delete' => false, 'view' => false, 'list' => false];
 
     /**
      * Tools should be appends to default tools.
