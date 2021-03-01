@@ -19,7 +19,7 @@ trait FormCreator
 
         $rows = [
             <<<EOF
-\$form->display('{$primaryKey}');
+\$form->hidden('{$primaryKey}');
 EOF
 
         ];
@@ -38,8 +38,8 @@ EOF
         if ($timestamps) {
             $rows[] = <<<'EOF'
         
-            $form->display('created_at');
-            $form->display('updated_at');
+            $form->hidden('created_at');
+            $form->hidden('updated_at');
 EOF;
         }
 
