@@ -170,6 +170,7 @@ class Form implements Renderable
         'array'               => Field\ArrayField::class,
         'selectTable'         => Field\SelectTable::class,
         'multipleSelectTable' => Field\MultipleSelectTable::class,
+        'inviteEmail'         => Field\InviteEmail::class,
     ];
 
     /**
