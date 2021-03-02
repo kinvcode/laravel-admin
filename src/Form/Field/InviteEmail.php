@@ -12,9 +12,10 @@ class InviteEmail extends Text
     {
         $html = '';
         $status = empty($this->data) ? 0 : $this->data->is_active;
+        $disabled = $status === 0 ? '' : 'disabled';
         $status = $status === 0 ? '未接受' : '已接受';
         if ($this->value) {
-            $html = '&nbsp;&nbsp;&nbsp;<button disabled class="btn bg-light">' . $status . '</button>&nbsp;&nbsp;&nbsp;<button class="resend btn bg-yellow">重新邀請</button>';
+            $html = '&nbsp;&nbsp;&nbsp;<button disabled class="btn bg-light">' . $status . '</button>&nbsp;&nbsp;&nbsp;<button class="resend btn bg-yellow" '.$disabled.'>重新邀請</button>';
         }
         $this->prepend('<i class="feather icon-mail"></i>')
             ->append($html)
