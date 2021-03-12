@@ -73,6 +73,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @method Field\MultipleFile           multipleFile($column, $label = '')
  * @method Field\MultipleImage          multipleImage($column, $label = '')
  * @method Field\HasMany                hasMany($column, $labelOrCallback, $callback = null)
+ * @method Field\HasManyOptions         hasManyOptions($column, $labelOrCallback, $callback = null)
  * @method Field\Tree                   tree($column, $label = '')
  * @method Field\Table                  table($column, $labelOrCallback, $callback = null)
  * @method Field\ListField              list($column, $label = '')
@@ -158,6 +159,7 @@ class Form implements Renderable
         'multipleFile'        => Field\MultipleFile::class,
         'multipleImage'       => Field\MultipleImage::class,
         'hasMany'             => Field\HasMany::class,
+        'hasManyOptions'      => Field\HasManyOptions::class,
         'tree'                => Field\Tree::class,
         'table'               => Field\Table::class,
         'list'                => Field\ListField::class,
