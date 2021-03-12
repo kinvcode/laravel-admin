@@ -496,7 +496,6 @@ class HasManyOptions extends Field
     {$this->makeReplaceNestedIndexScript()}
     
 $('{$this->getContainerElementSelector()}').on('click', '.add', function () {
-    console.log('add');
     if(nestedIndex >= max){
       Dcat.info("數量已達到最大限制");
       return false;
@@ -514,6 +513,11 @@ $('{$this->getContainerElementSelector()}').on('click', '.add', function () {
 });
 
 $('{$this->getContainerElementSelector()}').on('click', '.remove', function () {
+    var hasNext = $(this).closest('.has-many-{$this->column}-form').next().length;
+    if(hasNext){
+      Dcat.info("只允許從最後一個開始移除");
+      return false;
+    }
     nestedIndex--;
     $(this).closest('.has-many-{$this->column}-form').hide();
     $(this).closest('.has-many-{$this->column}-form').find('.$removeClass').val(1);
