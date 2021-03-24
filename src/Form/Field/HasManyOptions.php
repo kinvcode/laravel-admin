@@ -609,11 +609,16 @@ JS;
          */
         $script = <<<JS
 (function () {
+    var max = {$this->maxOptions};
     var nestedIndex = {$count};
     
     {$this->makeReplaceNestedIndexScript()}
     
     $('{$this->getContainerElementSelector()}').on('click', '.add', function () {
+        if(nestedIndex >= max){
+          Dcat.info("數量已達到最大限制");
+          return false;
+        }
         var tpl = $('template.{$this->column}-tpl');
     
         nestedIndex++;
@@ -624,8 +629,13 @@ JS;
     });
     
     $('{$this->getContainerElementSelector()}').on('click', '.remove', function () {
-        $(this).closest('.has-many-{$this->column}-form').hide();
-        $(this).closest('.has-many-{$this->column}-form').find('.$removeClass').val(1);
+        var hasNext = $(this).closest('.has-many-{$this->column}-form').next().length;
+        if(hasNext){
+          Dcat.info("只允許從最後一個開始移除");
+          return false;
+        }
+        nestedIndex--;
+        $(this).closest('.has-many-{$this->column}-form').remove();
     });
 })();
 JS;
@@ -792,5 +802,6 @@ JS;
     public function setMaxOptions(int $number)
     {
         $this->maxOptions = $number;
+        return $this;
     }
 }
