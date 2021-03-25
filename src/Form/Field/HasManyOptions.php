@@ -76,6 +76,8 @@ class HasManyOptions extends Field
 
     protected $maxOptions = 26;
 
+    protected $enableSort = 'true';
+
     /**
      * Create a new HasMany field instance.
      *
@@ -491,6 +493,7 @@ class HasManyOptions extends Field
 (function () {
     var max = {$this->maxOptions};
     var nestedIndex = {$count};
+    var enableSort = {$this->enableSort}
     var options = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
     
     {$this->makeReplaceNestedIndexScript()}
@@ -501,9 +504,11 @@ $('{$this->getContainerElementSelector()}').on('click', '.add', function () {
       return false;
     }
     var tpl = $('template.{$this->column}-tpl');
-    var label = tpl.contents().find('.control-label span');
-    if(label.length > 0){
-      label.text(options[nestedIndex]);
+    if(enableSort){
+        var label = tpl.contents().find('.control-label span');
+        if(label.length > 0){
+          label.text(options[nestedIndex]);
+        }
     }
     nestedIndex++;
     var template = replaceNestedFormIndex(tpl.html());
@@ -519,8 +524,7 @@ $('{$this->getContainerElementSelector()}').on('click', '.remove', function () {
       return false;
     }
     nestedIndex--;
-    $(this).closest('.has-many-{$this->column}-form').hide();
-    $(this).closest('.has-many-{$this->column}-form').find('.$removeClass').val(1);
+    $(this).closest('.has-many-{$this->column}-form').remove();
 });
 })()
 JS;
@@ -802,6 +806,12 @@ JS;
     public function setMaxOptions(int $number)
     {
         $this->maxOptions = $number;
+        return $this;
+    }
+
+    public function unEnableSort()
+    {
+        $this->enableSort = 'false';
         return $this;
     }
 }
