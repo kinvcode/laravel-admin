@@ -120,6 +120,11 @@ trait HasFiles
                 return $field->column() === $column;
             });
         }
+        if ($relation && $relation instanceof Field\HasManyOptions) {
+            return $relation->buildNestedForm()->fields()->first(function ($field) use ($column) {
+                return $field->column() === $column;
+            });
+        }
     }
 
     /**
